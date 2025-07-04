@@ -1,0 +1,6 @@
+{
+    // npm install -g google-closure-compiler
+    "cmd": ["npx", "google-closure-compiler", "--warning_level=QUIET", "--compilation_level=SIMPLE", "--js='$file_name'", "--js_output_file='$file_base_name.min.js'"],
+    "file_patterns": ["*.js", "*.ts"],
+    "working_dir": "$file_path",
+}

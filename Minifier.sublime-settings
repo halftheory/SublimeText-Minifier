@@ -1,30 +1,26 @@
 {
-    // the closure compiler adds new lines every 500 characters
-    // for some proxies that choke with lines longer than that... don't care?
-    // set this setting to true.
+    // The closure compiler adds new lines every 500 characters for some proxies that choke with lines longer than that... don't care? Set this setting to true.
     "remove_new_lines": false,
 
-    // the default optimization level to use for minification
+    // The default optimization level to use for minification. Accepted values: WHITESPACE_ONLY, SIMPLE_OPTIMIZATIONS, ADVANCED_OPTIMIZATIONS.
     "optimization_level": "SIMPLE_OPTIMIZATIONS",
 
-    // the compiler to use for minification.
-    // Accepted values are: google_closure (don't use it anymore, it's broken and will be removed soon !)
+    // Javascript - The compiler to use for minification. Accepted values: google_closure.
     "compiler": "google_closure",
 
-    // the compiler to use for minification.
-    // Accepted values are: cssminifier
+    // CSS - The compiler to use for minification. Accepted values: cssminifier.
     "css_compiler": "cssminifier",
 
-    // when you create a file you want to automatically open it?
+    // When you create a file you want to automatically open it?
     "open_on_min": false,
 
-    // HTTP Timeout
+    // HTTP Timeout.
     "timeout": 10,
 
-    // Custom File Save
+    // Custom File Save.
     "minify_options" : {
-        "ask_file_name" : true,
-        "default_name" : "file.js",
-        "suffix" : ".min"
+        "ask_file_name" : false,
+        // Accepted variables: %dirname%, %filename%, %basename%, %extension%.
+        "default_name" : "%basename%.min.%extension%"
     }
 }

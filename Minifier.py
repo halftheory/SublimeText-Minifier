@@ -130,39 +130,7 @@ class BaseMinifier(sublime_plugin.TextCommand):
         endtypes = {'u': LF, 'w': CR+LF, 'm': CR}
         return endtypes[self.view.line_endings()[0].lower()]
 
-class MinifyAutoMagic(sublime_plugin.EventListener):
-    def on_post_save(self, view):
-        self.settings = sublime.load_settings('Minifier.sublime-settings')
-        file_can_minify_list = [ 'css', 'js']
-        if self.settings.get('auto_minify_on_save', False ) == True:
-            if view.file_name().split('.').pop().lower() in file_can_minify_list:
-                sublime.status_message(' Starting auto minify for ' + view.file_name() );
-                view.run_command('minify_to_file');
-                #sublime.message_dialog( " AutoMinifyAndSave " + view.file_name()  );
-
 class Minify(BaseMinifier):
-
-    def handle_result(self, edit, thread, selections, offset):
-        result = super(Minify, self).handle_result(edit, thread, selections, offset)
-
-        if thread.error is None:
-            if sublime.version() < '3':
-                editgroup = self.view.begin_edit('minify')
-
-            sel = thread.sel
-            result = thread.result
-            if offset:
-                sel = sublime.Region(thread.sel.begin() + offset, thread.sel.end() + offset)
-
-            if sublime.version() < '3':
-                self.view.replace(edit, sel, result)
-            else:
-                self.view.replace(edit, sel, result.decode("utf-8"))
-
-            if sublime.version() < '3':
-                self.view.end_edit(edit)
-
-class MinifyToFile(BaseMinifier):
 
     def run(self, edit):
 
@@ -170,7 +138,7 @@ class MinifyToFile(BaseMinifier):
         self.output = ""
         self.total_selections = len(self.get_selections())
 
-        super(MinifyToFile, self).run(edit)
+        super(Minify, self).run(edit)
 
     def save(self, name):
         destination_file = path.join(
@@ -197,7 +165,7 @@ class MinifyToFile(BaseMinifier):
     def handle_result(self, edit, thread, selections, offset):
         self.selections_completed += 1
 
-        super(MinifyToFile, self).handle_result(edit, thread, selections, offset)
+        super(Minify, self).handle_result(edit, thread, selections, offset)
 
         if thread.error is None:
             if sublime.version() < '3':
@@ -216,8 +184,7 @@ class MinifyToFile(BaseMinifier):
 
                 options = self.settings.get('minify_options', {
                     "ask_file_name" : False,
-                    "default_name" : None,
-                    "suffix" : ".min"
+                    "default_name" : None
                 })
 
                 if (options['default_name'] is None or options['default_name'] == "%fileName%"):

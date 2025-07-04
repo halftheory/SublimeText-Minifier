@@ -1,0 +1,6 @@
+{
+    // npm install -g sass
+    "cmd": ["npx", "sass", "--load-path=../../node_modules", "--charset", "--no-source-map", "--style=compressed", "$file_name:../css/$file_base_name.css"],
+    "file_patterns": ["*.sass", "*.scss"],
+    "working_dir": "$file_path",
+}
